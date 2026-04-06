@@ -1609,7 +1609,7 @@ h3,
   .daily-dashboard,
   .domain-nav,
   .main-content {
-    padding: 0 16px;
+    padding: 0 20px;
   }
 
   .daily-dashboard-inner,
@@ -1653,9 +1653,24 @@ h3,
     scroll-snap-align: center;
     justify-content: center;
     padding: 10px 0;
+    margin: 0;
   }
   .domain-nav-inner {
     gap: 0;
+    padding: 0 48px; /* Give room for arrows */
+    scroll-snap-type: x mandatory;
+  }
+  .nav-arrow {
+    position: absolute;
+    z-index: 10;
+  }
+  #nav-arrow-left { left: 0; }
+  #nav-arrow-right { right: 0; }
+  
+  .item-label, .section-title, .checkpoint-text, .dash-card-value {
+    overflow-wrap: break-word;
+    word-break: break-all; /* More aggressive for extremely narrow screens */
+    max-width: 100%;
   }
 }
 
@@ -1670,6 +1685,11 @@ h3,
 
   .stat-pill .stat-label {
     display: none;
+  }
+  .stat-pill {
+    padding: 6px 12px;
+    flex: 1;
+    justify-content: center;
   }
 
   .timer-controls {
@@ -1697,13 +1717,9 @@ h3,
   max-width: 960px;
   margin: 0 auto;
   display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.mobile-stats-inner::-webkit-scrollbar {
-  display: none;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 0 4px;
 }
 
 @media (max-width: 768px) {

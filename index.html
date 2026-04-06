@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Career Roadmap Tracker</title>
+    <meta name="description" content="A gamified career roadmap tracker to level up your programming skills systematically. Track progress, build streaks, and stay consistent.">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <!-- ═══ Top Bar ═══ -->
+    <header class="top-bar" id="top-bar">
+        <div class="top-bar-left">
+            <div class="logo">
+                <span class="logo-icon" id="logo-icon-svg"></span>
+                <span class="logo-text">SkillForge</span>
+            </div>
+        </div>
+        <div class="top-bar-center">
+            <div class="stat-pill" id="stat-level">
+                <span class="stat-icon" id="stat-level-icon"></span>
+                <span class="stat-label">Level</span>
+                <span class="stat-value" id="level-value">1</span>
+            </div>
+            <div class="stat-pill" id="stat-xp">
+                <span class="stat-icon" id="stat-xp-icon"></span>
+                <span class="stat-label">XP</span>
+                <span class="stat-value" id="xp-value">0</span>
+            </div>
+            <div class="stat-pill" id="stat-streak">
+                <span class="stat-icon" id="stat-streak-icon"></span>
+                <span class="stat-label">Streak</span>
+                <span class="stat-value" id="streak-value">0d</span>
+            </div>
+            <div class="stat-pill" id="stat-completed">
+                <span class="stat-icon" id="stat-done-icon"></span>
+                <span class="stat-label">Done</span>
+                <span class="stat-value" id="completed-value">0/0</span>
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <button class="icon-btn" id="btn-theme" title="Toggle Theme"></button>
+            <button class="icon-btn" id="btn-calendar" title="Set Up Reminders"></button>
+            <button class="icon-btn" id="btn-timer" title="Study Timer"></button>
+            <button class="icon-btn" id="btn-reset" title="Reset Progress"></button>
+        </div>
+    </header>
+
+    <!-- ═══ Mobile Stats (visible < 768px) ═══ -->
+    <div class="mobile-stats" id="mobile-stats">
+        <div class="mobile-stats-inner">
+            <div class="stat-pill" id="m-stat-level">
+                <span class="stat-icon" id="m-stat-level-icon"></span>
+                <span class="stat-label">Lv</span>
+                <span class="stat-value" id="m-level-value">1</span>
+            </div>
+            <div class="stat-pill" id="m-stat-xp">
+                <span class="stat-icon" id="m-stat-xp-icon"></span>
+                <span class="stat-value" id="m-xp-value">0 XP</span>
+            </div>
+            <div class="stat-pill" id="m-stat-streak">
+                <span class="stat-icon" id="m-stat-streak-icon"></span>
+                <span class="stat-value" id="m-streak-value">0d</span>
+            </div>
+            <div class="stat-pill" id="m-stat-done">
+                <span class="stat-icon" id="m-stat-done-icon"></span>
+                <span class="stat-value" id="m-completed-value">0/0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ Overall Progress ═══ -->
+    <section class="overall-progress" id="overall-progress">
+        <div class="overall-progress-inner animate-in animate-in-delay-1">
+            <div class="progress-header">
+                <h2>Overall Journey Progress</h2>
+                <span class="progress-percent" id="overall-percent">0%</span>
+            </div>
+            <div class="progress-bar-track overall-track">
+                <div class="progress-bar-fill overall-fill" id="overall-fill" style="width: 0%"></div>
+            </div>
+            <div class="xp-bar-container">
+                <div class="xp-label">
+                    <span>XP to next level: <strong id="xp-remaining">100</strong></span>
+                    <span id="xp-current-level">Level 1</span>
+                </div>
+                <div class="progress-bar-track xp-track">
+                    <div class="progress-bar-fill xp-fill" id="xp-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ Daily Dashboard ═══ -->
+    <section class="daily-dashboard" id="daily-dashboard">
+        <div class="daily-dashboard-inner animate-in animate-in-delay-2">
+            <div class="dash-card" id="dash-next-step">
+                <div class="dash-card-header">
+                    <span id="dash-focus-icon"></span>
+                    Next Step
+                </div>
+                <div class="next-step-label" id="dash-next-domain">Python</div>
+                <div class="dash-card-value" id="dash-next-item">Start your journey!</div>
+            </div>
+            <div class="dash-card" id="dash-daily-goals">
+                <div class="dash-card-header">
+                    <span id="dash-goals-icon"></span>
+                    Daily Goals
+                </div>
+                <div class="dash-card-value" id="dash-goals-content">
+                    Check off 1 item<br>
+                    Solve 2 DSA problems<br>
+                    Study for 45 min
+                </div>
+            </div>
+            <div class="dash-card" id="dash-streak-status">
+                <div class="dash-card-header">
+                    <span id="dash-streak-icon"></span>
+                    Streak Status
+                </div>
+                <div class="dash-card-value" id="dash-streak-msg">Start today!</div>
+            </div>
+            <div class="dash-card" id="dash-achievements">
+                <div class="dash-card-header">
+                    <span id="dash-ach-icon"></span>
+                    Achievements
+                </div>
+                <div class="dash-card-value" id="dash-ach-count">0 unlocked</div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Domain Navigation -->
+      <nav class="domain-nav">
+        <div class="domain-nav-wrapper">
+          <button class="nav-arrow nav-arrow-left" id="nav-arrow-left" aria-label="Scroll left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <div class="domain-nav-inner" id="domain-tabs">
+            <!-- Filled via JS -->
+          </div>
+          <button class="nav-arrow nav-arrow-right" id="nav-arrow-right" aria-label="Scroll right">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </nav>
+
+    <!-- ═══ Main Content ═══ -->
+    <main class="main-content" id="main-content">
+        <!-- domain cards injected by JS -->
+    </main>
+
+    <!-- ═══ Study Timer Modal ═══ -->
+    <div class="modal-overlay" id="timer-modal">
+        <div class="modal timer-modal-content">
+            <button class="modal-close" id="timer-close">x</button>
+            <div class="timer-header">
+                <h2>Study Timer</h2>
+                <p class="timer-subtitle">Stay focused. Stay consistent.</p>
+            </div>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div class="timer-controls">
+                <button class="timer-btn" id="timer-start">Start</button>
+                <button class="timer-btn" id="timer-pause" disabled>Pause</button>
+                <button class="timer-btn secondary" id="timer-reset-btn">Reset</button>
+            </div>
+            <div class="timer-presets">
+                <button class="preset-btn active" data-minutes="25">25 min</button>
+                <button class="preset-btn" data-minutes="45">45 min</button>
+                <button class="preset-btn" data-minutes="60">60 min</button>
+                <button class="preset-btn" data-minutes="90">90 min</button>
+            </div>
+            <div class="study-log">
+                <h3>Today's Study Log</h3>
+                <div class="study-log-stats">
+                    <div class="study-stat">
+                        <span class="study-stat-value" id="today-sessions">0</span>
+                        <span class="study-stat-label">Sessions</span>
+                    </div>
+                    <div class="study-stat">
+                        <span class="study-stat-value" id="today-minutes">0</span>
+                        <span class="study-stat-label">Minutes</span>
+                    </div>
+                    <div class="study-stat">
+                        <span class="study-stat-value" id="total-hours">0</span>
+                        <span class="study-stat-label">Total Hrs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══ Calendar Reminder Modal ═══ -->
+    <div class="modal-overlay" id="calendar-modal">
+        <div class="modal calendar-modal-content">
+            <button class="modal-close" id="calendar-close">x</button>
+            <div class="calendar-header">
+                <h2>Set Up Daily Reminders</h2>
+                <p class="calendar-subtitle">Download a calendar file to get daily reminders on your phone.</p>
+            </div>
+            <div class="reminder-options">
+                <div class="reminder-option selected" data-time="morning">
+                    <div class="reminder-radio"><div class="reminder-radio-dot"></div></div>
+                    <div class="reminder-text">
+                        <div class="reminder-title">Morning (8:00 AM)</div>
+                        <div class="reminder-desc">Start your day with a study reminder</div>
+                    </div>
+                </div>
+                <div class="reminder-option" data-time="afternoon">
+                    <div class="reminder-radio"><div class="reminder-radio-dot"></div></div>
+                    <div class="reminder-text">
+                        <div class="reminder-title">Afternoon (2:00 PM)</div>
+                        <div class="reminder-desc">Mid-day reminder to keep the momentum</div>
+                    </div>
+                </div>
+                <div class="reminder-option" data-time="evening">
+                    <div class="reminder-radio"><div class="reminder-radio-dot"></div></div>
+                    <div class="reminder-text">
+                        <div class="reminder-title">Evening (7:00 PM)</div>
+                        <div class="reminder-desc">Wind down your day with focused study</div>
+                    </div>
+                </div>
+            </div>
+            <button class="download-calendar-btn" id="download-calendar-btn">
+                <span id="download-icon"></span>
+                Download Calendar Reminders (.ics)
+            </button>
+            <p class="calendar-note">
+                Import this file into Google Calendar, Apple Calendar, or Outlook.<br>
+                You'll get daily reminders to study, solve DSA problems, and maintain your streak.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══ Level Up Toast ═══ -->
+    <div class="toast" id="level-up-toast">
+        <div class="toast-content">
+            <span class="toast-icon" id="toast-level-icon"></span>
+            <div class="toast-text">
+                <strong>LEVEL UP!</strong>
+                <span id="toast-message">You reached Level 2!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ Achievement Toast ═══ -->
+    <div class="toast achievement-toast" id="achievement-toast">
+        <div class="toast-content">
+            <span class="toast-icon" id="toast-ach-icon"></span>
+            <div class="toast-text">
+                <strong>Achievement Unlocked!</strong>
+                <span id="achievement-message">First Step!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ Motivational Quote ═══ -->
+    <footer class="motivational-footer" id="motivational-footer">
+        <p id="quote-text">"The only way to do great work is to love what you do."</p>
+        <span id="quote-author">-- Steve Jobs</span>
+    </footer>
+
+    <!-- ═══ Confetti Container ═══ -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>

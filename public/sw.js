@@ -1,5 +1,5 @@
 // SkillForge Service Worker — Offline support + PWA
-const CACHE_NAME = 'skillforge-v7';
+const CACHE_NAME = 'skillforge-v8';
 const ASSETS = [
   './',
   './index.html',

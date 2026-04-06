@@ -791,11 +791,12 @@ function generateICS() {
 
   const now = new Date();
   const startDate = formatICSDate(now, t.hour, t.min);
+  const customMsg = $('custom-reminder-msg').value || 'SkillForge: Daily Study Session';
 
-  // Create 3 recurring events
+  // Create 2 recurring events
   const events = [
     {
-      summary: 'SkillForge: Daily Study Session',
+      summary: customMsg,
       description: 'Time to study! Open SkillForge and check off your roadmap items. Stay consistent, stay sharp.',
       alarm: 0
     },

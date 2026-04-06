@@ -173,7 +173,7 @@ function toggleTheme() {
 // ─── Inject SVG Icons into static elements ───
 function injectIcons() {
   // Logo
-  $('logo-icon-svg').innerHTML = getIcon('zap', 18);
+  $('logo-icon-svg').innerHTML = getIcon('flame', 18);
 
   // Top bar stats
   $('stat-level-icon').innerHTML = getIcon('trophy', 14);

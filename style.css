@@ -1402,6 +1402,33 @@ h3,
   margin-top: 4px;
 }
 
+.reminder-option.selected .custom-time-input {
+  background: var(--bg-primary);
+  border-color: var(--border-dark);
+}
+
+.custom-time-input {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: block;
+  width: 100%;
+}
+
+.custom-time-input:focus {
+  border-color: var(--border-dark);
+  box-shadow: 2px 2px 0px var(--border-dark);
+}
+
 .calendar-note {
   font-size: 13px;
   color: var(--text-tertiary);

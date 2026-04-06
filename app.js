@@ -780,7 +780,15 @@ function generateICS() {
     evening: { hour: 19, min: 0 }
   };
 
-  const t = timeMap[selectedReminderTime];
+  let t;
+  if (selectedReminderTime === 'custom') {
+    const customTime = $('custom-reminder-time').value;
+    const [h, m] = customTime.split(':').map(Number);
+    t = { hour: h, min: m };
+  } else {
+    t = timeMap[selectedReminderTime];
+  }
+
   const now = new Date();
   const startDate = formatICSDate(now, t.hour, t.min);
 
@@ -891,10 +899,17 @@ function bindEvents() {
   $('btn-calendar').addEventListener('click', () => openModal('calendar-modal'));
   $('calendar-close').addEventListener('click', () => closeModal('calendar-modal'));
   document.querySelectorAll('.reminder-option').forEach(opt => {
-    opt.addEventListener('click', () => {
+    opt.addEventListener('click', (e) => {
       document.querySelectorAll('.reminder-option').forEach(o => o.classList.remove('selected'));
       opt.classList.add('selected');
       selectedReminderTime = opt.dataset.time;
+
+      if (opt.dataset.time === 'custom') {
+        const input = opt.querySelector('.custom-time-input');
+        if (input && e.target !== input) {
+          input.focus();
+        }
+      }
     });
   });
   $('download-calendar-btn').addEventListener('click', generateICS);

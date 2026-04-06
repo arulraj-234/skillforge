@@ -173,7 +173,7 @@ function toggleTheme() {
 // ─── Inject SVG Icons into static elements ───
 function injectIcons() {
   // Logo
-  $('logo-icon-svg').innerHTML = getIcon('flame', 18);
+  $('logo-icon-svg').innerHTML = `<img src="logo.svg" alt="SkillForge" style="width: 26px; height: 26px; display: block;">`;
 
   // Top bar stats
   $('stat-level-icon').innerHTML = getIcon('trophy', 14);

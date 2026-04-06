@@ -478,6 +478,7 @@ h3,
   scroll-behavior: smooth;
   flex: 1;
   padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
 }
 
 .domain-nav-inner::-webkit-scrollbar {
@@ -1647,9 +1648,14 @@ h3,
     font-size: 14px;
   }
 
-  .item {
-    gap: 12px;
+  .domain-tab {
+    min-width: 100%;
+    scroll-snap-align: center;
+    justify-content: center;
     padding: 10px 0;
+  }
+  .domain-nav-inner {
+    gap: 0;
   }
 }
 

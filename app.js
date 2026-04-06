@@ -950,10 +950,10 @@ function bindEvents() {
   const rightArrow = $('nav-arrow-right');
   if (tabContainer && leftArrow && rightArrow) {
     leftArrow.addEventListener('click', () => {
-      tabContainer.scrollBy({ left: -200, behavior: 'smooth' });
+      tabContainer.scrollBy({ left: -tabContainer.clientWidth, behavior: 'smooth' });
     });
     rightArrow.addEventListener('click', () => {
-      tabContainer.scrollBy({ left: 200, behavior: 'smooth' });
+      tabContainer.scrollBy({ left: tabContainer.clientWidth, behavior: 'smooth' });
     });
     tabContainer.addEventListener('scroll', updateNavArrows);
     window.addEventListener('resize', updateNavArrows);

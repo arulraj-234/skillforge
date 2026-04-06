@@ -1,5 +1,5 @@
 // SkillForge Service Worker — Offline support + PWA
-const CACHE_NAME = 'skillforge-v5';
+const CACHE_NAME = 'skillforge-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -7,7 +7,7 @@ const ASSETS = [
   './data.js',
   './app.js',
   './manifest.json',
-  './logo.svg'
+  './site-icon.svg'
 ];
 
 // Install: cache all assets

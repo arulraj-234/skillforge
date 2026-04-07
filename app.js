@@ -141,7 +141,7 @@ function init() {
   const currentUser = auth.getCurrentUser();
   if (!currentUser) {
     if ($('auth-modal')) $('auth-modal').classList.add('open');
-    $('auth-logo-svg').innerHTML = getIcon('rocket', 40);
+    $('auth-logo-svg').innerHTML = '<img src="/site-icon.svg" width="48" height="48" alt="SkillForge Logo" style="display:block;">';
     bindAuthEvents();
     return;
   }
@@ -1001,7 +1001,7 @@ function bindAuthEvents() {
     // SVG
     const svgEl = $('auth-logo-svg');
     if (svgEl && !svgEl.innerHTML) {
-        svgEl.innerHTML = getIcon('rocket', 48);
+        svgEl.innerHTML = '<img src="/site-icon.svg" width="48" height="48" alt="SkillForge Logo" style="display:block;">';
     }
 
     const toggleBtn = $('auth-toggle-btn');

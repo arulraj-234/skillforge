@@ -4,9 +4,10 @@
 // ============================================================
 
 import { DOMAINS, QUOTES, ACHIEVEMENTS, LEVEL_THRESHOLDS, getLevelForXP, getXPForNextLevel, getIcon } from './data.js';
+import * as auth from './auth.js';
 
 // ─── Constants ───
-const STORAGE_KEY = 'skillforge_state';
+let STORAGE_KEY = 'skillforge_state';
 const XP_PER_ITEM = 10;
 const XP_CHECKPOINT = 50;
 
@@ -137,6 +138,21 @@ function isDomainAllItemsChecked(domain) {
 
 // ─── Initialize ───
 function init() {
+  const currentUser = auth.getCurrentUser();
+  if (!currentUser) {
+    if ($('auth-modal')) $('auth-modal').classList.add('open');
+    $('auth-logo-svg').innerHTML = getIcon('rocket', 40);
+    bindAuthEvents();
+    return;
+  }
+  
+  if ($('auth-modal')) $('auth-modal').classList.remove('open');
+  STORAGE_KEY = 'skillforge_state_' + currentUser.username;
+  
+  if ($('top-bar-profile-pic') && currentUser.profilePic) {
+      $('top-bar-profile-pic').src = currentUser.profilePic;
+  }
+
   loadState();
   applyTheme(state.theme);
   checkStreakOnLoad();
@@ -149,6 +165,7 @@ function init() {
   updateDashboard();
   updateQuote();
   bindEvents();
+  bindAuthEvents(); // bind auth events for the account modal
   checkAchievements(true); // silent check on load
 
   // Register service worker for PWA
@@ -975,6 +992,126 @@ function updateNavArrows() {
 
   leftArrow.classList.toggle('hidden', container.scrollLeft <= 0);
   rightArrow.classList.toggle('hidden', container.scrollLeft >= container.scrollWidth - container.clientWidth - 1);
+}
+
+// ─── Auth Flow ───
+function bindAuthEvents() {
+    let mode = 'login'; // login | signup
+
+    // SVG
+    const svgEl = $('auth-logo-svg');
+    if (svgEl && !svgEl.innerHTML) {
+        svgEl.innerHTML = getIcon('rocket', 48);
+    }
+
+    const toggleBtn = $('auth-toggle-btn');
+    if (toggleBtn && !toggleBtn.dataset.bound) {
+        toggleBtn.dataset.bound = 'true';
+        toggleBtn.addEventListener('click', () => {
+            mode = mode === 'login' ? 'signup' : 'login';
+            if (mode === 'login') {
+                $('auth-title').textContent = 'Welcome to SkillForge';
+                $('auth-subtitle').textContent = 'Login to sync your roadmap progress.';
+                $('auth-submit-btn').textContent = 'Login';
+                $('auth-toggle-text').textContent = "Don't have an account?";
+                $('auth-toggle-btn').textContent = 'Sign Up';
+            } else {
+                $('auth-title').textContent = 'Create an Account';
+                $('auth-subtitle').textContent = 'Start tracking your skills today.';
+                $('auth-submit-btn').textContent = 'Sign Up';
+                $('auth-toggle-text').textContent = "Already have an account?";
+                $('auth-toggle-btn').textContent = 'Login';
+            }
+            $('auth-error').textContent = '';
+        });
+    }
+
+    const authForm = $('auth-form');
+    if (authForm && !authForm.dataset.bound) {
+        authForm.dataset.bound = 'true';
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userVal = $('auth-username').value.trim();
+            const passVal = $('auth-password').value;
+
+            if (!userVal || !passVal) return;
+
+            try {
+                if (mode === 'signup') {
+                    auth.signup(userVal, passVal);
+                } else {
+                    auth.login(userVal, passVal);
+                }
+                window.location.reload();
+            } catch (err) {
+                $('auth-error').textContent = err.message;
+            }
+        });
+    }
+
+    const btnAccount = $('btn-account');
+    if (btnAccount && !btnAccount.dataset.bound) {
+        btnAccount.dataset.bound = 'true';
+        btnAccount.addEventListener('click', () => {
+            const u = auth.getCurrentUser();
+            if(!u) return;
+            $('account-username').value = u.username;
+            $('account-password').value = '';
+            if(u.profilePic && !u.profilePic.includes('data:image/svg+xml')) {
+                $('account-profile-preview').src = u.profilePic;
+            }
+            $('account-error').textContent = '';
+            openModal('account-modal');
+        });
+    }
+
+    const accountClose = $('account-close');
+    if(accountClose && !accountClose.dataset.bound) {
+        accountClose.dataset.bound = 'true';
+        accountClose.addEventListener('click', () => closeModal('account-modal'));
+    }
+
+    const btnLogout = $('btn-logout');
+    if(btnLogout && !btnLogout.dataset.bound) {
+        btnLogout.dataset.bound = 'true';
+        btnLogout.addEventListener('click', () => {
+            auth.logout();
+            window.location.reload();
+        });
+    }
+
+    const profilePicInput = $('account-profile-pic');
+    if(profilePicInput && !profilePicInput.dataset.bound) {
+        profilePicInput.dataset.bound = 'true';
+        profilePicInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                $('account-profile-preview').src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    const accountForm = $('account-form');
+    if(accountForm && !accountForm.dataset.bound) {
+        accountForm.dataset.bound = 'true';
+        accountForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nwUser = $('account-username').value.trim();
+            const nwPass = $('account-password').value;
+            const nwPic = $('account-profile-preview').src;
+            if(!nwUser) return;
+            try {
+                auth.updateProfile(nwUser, nwPass, nwPic);
+                closeModal('account-modal');
+                window.location.reload(); // to re-load profile cleanly
+            } catch(err) {
+                $('account-error').textContent = err.message;
+            }
+        });
+    }
 }
 
 // ─── Start ───

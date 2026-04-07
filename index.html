@@ -66,6 +66,10 @@
             <button class="icon-btn" id="btn-calendar" title="Set Up Reminders"></button>
             <button class="icon-btn" id="btn-timer" title="Study Timer"></button>
             <button class="icon-btn" id="btn-reset" title="Reset Progress"></button>
+            <!-- User Profile Corner -->
+            <button class="user-profile-btn" id="btn-account" title="Account Settings">
+                <img id="top-bar-profile-pic" class="user-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="User">
+            </button>
         </div>
     </header>
 
@@ -298,6 +302,68 @@
 
     <!-- ═══ Confetti Container ═══ -->
     <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- ═══ Auth Modal (Login/Signup) ═══ -->
+    <div class="modal-overlay auth-overlay" id="auth-modal">
+        <div class="modal auth-modal-content">
+            <div class="auth-header">
+                <span class="auth-icon" id="auth-logo-svg"></span>
+                <h2 id="auth-title">Welcome to SkillForge</h2>
+                <p class="auth-subtitle" id="auth-subtitle">Login to sync your roadmap progress.</p>
+            </div>
+            
+            <form id="auth-form" class="auth-form">
+                <div class="input-group">
+                    <label for="auth-username">Username</label>
+                    <input type="text" id="auth-username" required placeholder="Enter your username" autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="auth-password">Password</label>
+                    <input type="password" id="auth-password" required placeholder="Enter your password" autocomplete="current-password">
+                </div>
+                <div class="auth-error" id="auth-error"></div>
+                <button type="submit" class="auth-btn" id="auth-submit-btn">Login</button>
+            </form>
+            
+            <div class="auth-footer">
+                <span id="auth-toggle-text">Don't have an account?</span>
+                <button type="button" class="auth-toggle-btn" id="auth-toggle-btn">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ Account Settings Modal ═══ -->
+    <div class="modal-overlay" id="account-modal">
+        <div class="modal account-modal-content">
+            <button class="modal-close" id="account-close">x</button>
+            <div class="account-header">
+                <h2>Account Settings</h2>
+                <p class="account-subtitle">Manage your profile and credentials.</p>
+            </div>
+            
+            <form id="account-form" class="account-form">
+                <div class="profile-pic-container">
+                    <img id="account-profile-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="Profile Picture">
+                    <label for="account-profile-pic" class="profile-pic-btn">Change Picture</label>
+                    <input type="file" id="account-profile-pic" accept="image/*" style="display: none;">
+                </div>
+                
+                <div class="input-group">
+                    <label for="account-username">Username</label>
+                    <input type="text" id="account-username" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="account-password">New Password</label>
+                    <input type="password" id="account-password" placeholder="Leave blank to keep current" autocomplete="new-password">
+                </div>
+                <div class="auth-error" id="account-error"></div>
+                <div class="account-actions">
+                    <button type="submit" class="auth-btn" style="flex: 1;">Save Changes</button>
+                    <button type="button" class="timer-btn secondary" id="btn-logout" style="flex: 1;">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script type="module" src="app.js"></script>
